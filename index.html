@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pengaduan &amp; Pelaporan Pelanggaran — ROOTS / TPPK</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f3f6f5;--card:#fff;--ink:#16302f;--mut:#5b6f6d;--line:#cfdad8;--acc:#17595a;--accfg:#fff;--soft:#e3eeec;--warn:#9a4b00;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1b1b;--card:#162626;--ink:#e4efed;--mut:#9bb0ad;--line:#2b4241;--acc:#5fc1bd;--accfg:#06201f;--soft:#1d3433;--warn:#f0b36b}}
+:root[data-theme="dark"]{--bg:#0f1b1b;--card:#162626;--ink:#e4efed;--mut:#9bb0ad;--line:#2b4241;--acc:#5fc1bd;--accfg:#06201f;--soft:#1d3433;--warn:#f0b36b}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 "Public Sans",system-ui,sans-serif}
+header{background:var(--acc);color:var(--accfg);padding:22px 16px 18px}
+.wrap{max-width:820px;margin:0 auto;padding:0 14px}
+header .wrap{padding:0}
+h1{font:700 26px/1.2 Fraunces,Georgia,serif;margin:0 0 4px}
+header p{margin:0;opacity:.9;font-size:14px}
+#sekolah{background:transparent;border:0;border-bottom:1px dashed currentColor;color:inherit;font:600 15px "Public Sans",sans-serif;width:100%;max-width:340px;padding:2px 0;margin-top:8px}
+nav{display:flex;gap:6px;margin:16px 0}
+nav button{flex:1;padding:11px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;font:600 15px inherit;cursor:pointer}
+nav button[aria-selected=true]{background:var(--acc);color:var(--accfg);border-color:var(--acc)}
+section.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px;margin-bottom:14px}
+h2{font:600 19px/1.3 Fraunces,Georgia,serif;margin:0 0 4px}
+.sub{color:var(--mut);font-size:13.5px;margin:0 0 12px}
+label{display:block;font-weight:500;font-size:14.5px;margin:12px 0 4px}
+input[type=text],input[type=password],input[type=tel],input[type=date],input[type=time],select,textarea{width:100%;padding:10px;border:1px solid var(--line);border-radius:7px;background:var(--bg);color:var(--ink);font:inherit}
+textarea{min-height:110px;resize:vertical}
+.opts{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:4px}
+.opts label{display:flex;align-items:center;gap:7px;font-weight:400;margin:4px 0}
+.opts input{width:18px;height:18px;accent-color:var(--acc)}
+.row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.inl{margin-top:6px}
+.note{background:var(--soft);border-left:4px solid var(--acc);padding:10px 12px;border-radius:6px;font-size:14px;margin:0 0 14px}
+.btn{background:var(--acc);color:var(--accfg);border:0;border-radius:8px;padding:12px 18px;font:600 15px inherit;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--acc);border:1px solid var(--acc)}
+.btn.del{background:transparent;color:var(--warn);border:1px solid var(--warn)}
+.bar{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+:focus-visible{outline:3px solid var(--warn);outline-offset:2px}
+.ok{background:var(--soft);border:2px solid var(--acc);border-radius:10px;padding:16px;margin-bottom:14px}
+.ok b{font:700 22px Fraunces,Georgia,serif}
+.item{display:block;width:100%;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:11px 12px;margin-bottom:8px;color:var(--ink);font:inherit;cursor:pointer}
+.item small{color:var(--mut);display:block}
+.tag{display:inline-block;font-size:12px;font-weight:600;padding:2px 8px;border-radius:99px;background:var(--soft);margin-right:4px}
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:14px}
+th,td{border:1px solid var(--line);padding:6px;vertical-align:top;text-align:left}
+th{background:var(--soft)}
+td textarea{min-height:64px}
+dl{margin:0;display:grid;grid-template-columns:160px 1fr;gap:4px 12px;font-size:14.5px}
+dt{color:var(--mut)}dd{margin:0;white-space:pre-wrap}
+.files{list-style:none;padding:0;margin:8px 0 0}.files li{display:flex;align-items:center;gap:10px;padding:6px 8px;border:1px solid var(--line);border-radius:7px;margin-bottom:6px;font-size:14px}.files img{width:44px;height:44px;object-fit:cover;border-radius:5px}.files span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.files button{background:none;border:0;color:var(--warn);font:600 14px inherit;cursor:pointer}
+.media{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}.media img,.media video{width:100%;border-radius:8px;border:1px solid var(--line)}
+.only-print{display:none}
+.sig{display:grid;grid-template-columns:1fr 1fr;gap:30px;text-align:center;margin-top:10px}
+.sig div{padding-top:60px}
+[hidden]{display:none!important}
+@media (max-width:560px){dl{grid-template-columns:1fr}}
+@media print{
+ body{background:#fff;color:#000}header,nav,.bar,.noprint{display:none!important}
+ section.card{border:1px solid #999;break-inside:avoid;background:#fff}
+ .only-print{display:block}
+ body.p-form #view-rekap,body.p-detail #view-form{display:none!important}
+ input,select,textarea{border:0;border-bottom:1px solid #666;background:#fff;color:#000}
+}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+<h1>Pengaduan &amp; Pelaporan Pelanggaran</h1>
+<p>Program ROOTS / Tim Pencegahan &amp; Penanganan Kekerasan (TPPK)</p>
+<input id="sekolah" type="text" aria-label="Nama sekolah" value="SMA Negeri 4 Kota Ternate">
+</div></header>
+
+<div class="wrap">
+<nav role="tablist" class="noprint">
+ <button role="tab" id="t1" aria-selected="true">Buat laporan</button>
+ <button role="tab" id="t2" aria-selected="false">Rekap &amp; tindak lanjut (TPPK) <span id="cnt"></span></button>
+</nav>
+
+<div id="view-form">
+<div id="sukses" class="ok" hidden></div>
+<form id="f" autocomplete="off">
+<p class="note">Laporan dijaga kerahasiaannya. Anda boleh melapor secara anonim. Isi sejelas yang Anda tahu.</p>
+
+<section class="card">
+ <h2>Data laporan</h2>
+ <div class="row">
+  <div><label>No. laporan</label><input type="text" id="nolap" value="Dibuat otomatis saat disimpan" readonly></div>
+  <div><label>Hari / tanggal laporan</label><input type="text" id="tgllap" readonly></div>
+ </div>
+</section>
+
+<section class="card">
+ <h2>A. Identitas pelapor</h2>
+ <p class="sub">Rahasia atau anonim, sesuai pilihan pelapor.</p>
+ <div class="opts"><label><input type="checkbox" id="anon" name="anon"> Lapor secara anonim</label></div>
+ <label for="pnama">Nama lengkap</label><input type="text" id="pnama" name="pelapor_nama">
+ <label>Status</label>
+ <div class="opts">
+  <label><input type="radio" name="pstatus" value="Siswa"> Siswa</label>
+  <label><input type="radio" name="pstatus" value="Guru/Tendik"> Guru/Tendik</label>
+  <label><input type="radio" name="pstatus" value="Orang Tua"> Orang Tua</label>
+  <label><input type="radio" name="pstatus" value="Masyarakat/Lainnya"> Masyarakat/Lainnya</label>
+ </div>
+ <div id="pkelas" hidden><label for="pkelasin">Kelas</label><input type="text" id="pkelasin" name="pelapor_kelas" placeholder="mis. XI-9"></div>
+ <label for="pkontak">No. HP / email aktif</label><input type="text" id="pkontak" name="pelapor_kontak">
+</section>
+
+<section class="card">
+ <h2>B. Identitas korban</h2>
+ <p class="sub">Isi jika pelapor adalah saksi atau orang lain.</p>
+ <div class="row">
+  <div><label for="knama">Nama lengkap korban</label><input type="text" id="knama" name="korban_nama"></div>
+  <div><label for="kstat">Status / kelas korban</label><input type="text" id="kstat" name="korban_status"></div>
+ </div>
+</section>
+
+<section class="card">
+ <h2>C. Identitas terlapor (pelaku)</h2>
+ <div class="row">
+  <div><label for="tnama">Nama lengkap terlapor</label><input type="text" id="tnama" name="terlapor_nama"></div>
+  <div><label for="tstat">Status / kelas terlapor</label><input type="text" id="tstat" name="terlapor_status"></div>
+ </div>
+ <label>Jumlah pelaku</label>
+ <div class="opts">
+  <label><input type="radio" name="jml" value="1 orang"> 1 orang</label>
+  <label><input type="radio" name="jml" value="Lebih dari 1 orang"> Lebih dari 1 orang</label>
+ </div>
+ <div id="jmlx" hidden><label for="jmlin">Sebutkan jika tahu</label><input type="text" id="jmlin" name="jml_detail"></div>
+</section>
+
+<section class="card">
+ <h2>D. Rincian kejadian (5W+1H)</h2>
+ <p class="sub">Apa, siapa, kapan, di mana, mengapa, dan bagaimana.</p>
+ <div class="row">
+  <div><label for="wh">Hari</label><input type="text" id="wh" name="w_hari" placeholder="mis. Senin"></div>
+  <div><label for="wt">Tanggal</label><input type="date" id="wt" name="w_tgl"></div>
+  <div><label for="wj">Jam</label><input type="time" id="wj" name="w_jam"></div>
+ </div>
+ <label>Tempat kejadian</label>
+ <div class="opts">
+  <label><input type="checkbox" name="tempat" value="Kelas"> Kelas</label>
+  <label><input type="checkbox" name="tempat" value="Kantin"> Kantin</label>
+  <label><input type="checkbox" name="tempat" value="Lapangan"> Lapangan</label>
+  <label><input type="checkbox" name="tempat" value="Toilet"> Toilet</label>
+  <label><input type="checkbox" name="tempat" value="Media sosial (cyberbullying)"> Media sosial (cyberbullying)</label>
+  <label><input type="checkbox" name="tempat" value="Luar sekolah"> Luar sekolah</label>
+  <label><input type="checkbox" name="tempat" value="Lainnya"> Lainnya</label>
+ </div>
+ <input class="inl" type="text" name="tempat_lain" placeholder="Tempat lainnya (jika ada)" aria-label="Tempat lainnya">
+ <label>Jenis pelanggaran / perundungan</label>
+ <div class="opts" style="display:block">
+  <label><input type="checkbox" name="jenis" value="Fisik"> <span><b>Fisik</b> — memukul, menendang, mendorong, merusak barang, dll.</span></label>
+  <label><input type="checkbox" name="jenis" value="Verbal"> <span><b>Verbal</b> — mengejek, mengancam, memaki, body shaming, menghina, dll.</span></label>
+  <label><input type="checkbox" name="jenis" value="Sosial/Relasional"> <span><b>Sosial/relasional</b> — mengucilkan, menyebarkan rumor atau fitnah, dll.</span></label>
+  <label><input type="checkbox" name="jenis" value="Dunia maya (cyber)"> <span><b>Dunia maya (cyber)</b> — intimidasi lewat WA/Instagram/TikTok, penyebaran foto korban, dll.</span></label>
+ </div>
+ <label for="kron">Kronologi singkat kejadian</label>
+ <p class="sub" style="margin:0 0 4px">Jelaskan apa yang terjadi secara berurutan, bagaimana tindakan dilakukan, dan dampak langsung pada korban.</p>
+ <textarea id="kron" name="kronologi" style="min-height:160px"></textarea>
+</section>
+
+<section class="card">
+ <h2>E. Bukti pendukung <span class="sub">(jika ada)</span></h2>
+ <div class="opts">
+  <label><input type="checkbox" name="bukti" value="Foto / screenshot"> Foto / screenshot</label>
+  <label><input type="checkbox" name="bukti" value="Video / rekaman suara"> Video / rekaman suara</label>
+  <label><input type="checkbox" name="bukti" value="Saksi mata"> Saksi mata</label>
+ </div>
+ <label for="saksi">Nama saksi (jika ada)</label><input type="text" id="saksi" name="saksi">
+ <label>Bukti fisik lainnya (foto atau video)</label>
+ <input type="file" id="berkas" accept="image/*,video/*" multiple hidden>
+ <button type="button" class="btn ghost" id="pilihBerkas">Unggah foto / video</button>
+ <ul id="daftarBerkas" class="files"></ul>
+ <p class="sub" style="margin-top:8px">Maksimal 5 berkas, 10 MB per berkas. Foto otomatis dikecilkan. Berkas dikirim ke penyimpanan sekolah (Google Drive) dan hanya bisa dibuka petugas TPPK.</p>
+</section>
+
+<section class="card only-print">
+ <p class="sub">Tanda tangan (opsional, untuk pelaporan fisik / surat)</p>
+ <div class="sig"><div>Pelapor / Agen Perubahan,<br><br>( ______________________ )</div><div>Petugas Penerima Laporan (TPPK),<br><br>( ______________________ )</div></div>
+</section>
+
+<div class="bar">
+ <button class="btn" type="submit" id="kirim">Kirim laporan</button><span id="kstat" class="sub" role="status" style="align-self:center"></span>
+ <button class="btn ghost" type="button" id="cetakForm">Cetak formulir</button>
+ <button class="btn ghost" type="reset">Kosongkan</button>
+</div>
+</form>
+</div>
+
+<div id="view-rekap" hidden>
+ <section class="card noprint" id="login" hidden>
+  <h2>Masuk petugas TPPK</h2><p class="sub">Daftar laporan hanya untuk petugas.</p>
+  <label for="pin">Kode petugas</label><input type="password" id="pin" autocomplete="off">
+  <div class="bar"><button class="btn" id="masuk" type="button">Masuk</button></div><p id="lmsg" class="sub" role="status"></p>
+ </section>
+ <section class="card noprint" id="daftar" hidden>
+  <h2>Daftar laporan masuk</h2>
+  <p class="sub">Laporan dari semua perangkat terkumpul di Google Sheets sekolah.</p>
+  <div class="bar" style="margin:0 0 10px"><button class="btn ghost" id="segarkan" type="button">Muat ulang</button><button class="btn ghost" id="keluar" type="button">Keluar</button></div>
+  <div id="list"></div>
+ </section>
+ <div id="detail" hidden></div>
+</div>
+</div>
+
+<script>
+(function(){
+var $=function(s,r){return(r||document).querySelector(s)};
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+var API_URL='https://script.google.com/macros/s/AKfycbyRtp0VBbxLi5Rd7LhPPq1ml7-NWRTQuFw6Ac1d7AsB7dFEdF3zghEtfSzRSNymqsdo8g/exec'; // <-- tempel URL Web App Apps Script (berakhiran /exec) di antara tanda kutip
+function run(fn){var a=Array.prototype.slice.call(arguments,1);
+ if(!/^https:\/\/script\.google\.com\/.+\/exec/.test(API_URL))return Promise.reject({message:'URL server belum diisi. Buka berkas HTML ini di editor teks dan tempel URL Web App pada baris API_URL.'});
+ // Content-Type text/plain (bawaan) menghindari preflight CORS pada Apps Script.
+ return fetch(API_URL,{method:'POST',body:JSON.stringify({action:fn,args:a})})
+  .then(function(r){return r.json()})
+  .then(function(j){if(!j.ok)throw new Error(j.error||'Server menolak permintaan.');return j.data})}
+function pesan(e){return(e&&e.message)||String(e)}
+var pin='',data=[],berkas=[],pend=0,MAXB=10*1048576,MAXN=5,KS='tppk_school';
+var sek=$('#sekolah');try{var s0=localStorage.getItem(KS);if(s0)sek.value=s0}catch(e){}
+sek.addEventListener('input',function(){try{localStorage.setItem(KS,sek.value)}catch(e){}});
+function tglPanjang(d){return d.toLocaleDateString('id-ID',{weekday:'long',day:'numeric',month:'long',year:'numeric'})}
+$('#tgllap').value=tglPanjang(new Date());
+
+function tab(n){
+ $('#t1').setAttribute('aria-selected',n==1);$('#t2').setAttribute('aria-selected',n==2);
+ $('#view-form').hidden=n!=1;$('#view-rekap').hidden=n!=2;
+ if(n==2){$('#detail').hidden=true;
+  if(!pin){$('#login').hidden=false;$('#daftar').hidden=true;$('#pin').focus()}
+  else{$('#login').hidden=true;$('#daftar').hidden=false;muat()}}
+}
+$('#t1').onclick=function(){tab(1)};$('#t2').onclick=function(){tab(2)};
+$('#masuk').onclick=function(){var p=$('#pin').value,m=$('#lmsg');m.textContent='Memeriksa...';
+ run('checkPin',p).then(function(ok){if(ok){pin=p;$('#pin').value='';m.textContent='';tab(2)}else m.textContent='Kode salah.'}).catch(function(e){m.textContent=pesan(e)})};
+$('#pin').addEventListener('keydown',function(e){if(e.key==='Enter')$('#masuk').click()});
+$('#segarkan').onclick=muat;
+$('#keluar').onclick=function(){pin='';data=[];$('#cnt').textContent='';tab(2)};
+
+// Form
+var f=$('#f');
+$('#anon').addEventListener('change',function(){var a=this.checked;['#pnama','#pkontak'].forEach(function(i){$(i).disabled=a;if(a)$(i).value=''})});
+f.addEventListener('change',function(){$('#pkelas').hidden=f.elements.pstatus.value!=='Siswa';$('#jmlx').hidden=f.elements.jml.value!=='Lebih dari 1 orang'});
+f.addEventListener('reset',function(){berkas=[];drawBerkas();setTimeout(function(){$('#pkelas').hidden=true;$('#jmlx').hidden=true;$('#pnama').disabled=$('#pkontak').disabled=false},0)});
+$('#cetakForm').onclick=function(){document.body.className='p-form';window.print()};
+function checks(n){return Array.prototype.map.call(f.querySelectorAll('input[name='+n+']:checked'),function(e){return e.value})}
+
+// Unggah foto/video
+function kecil(file){return new Promise(function(res){
+ if(file.type.indexOf('image/')!==0)return res(file);
+ var im=new Image(),u=URL.createObjectURL(file);
+ im.onload=function(){var sc=Math.min(1,1280/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*sc);c.height=Math.round(im.height*sc);c.getContext('2d').drawImage(im,0,0,c.width,c.height);
+  c.toBlob(function(b){URL.revokeObjectURL(u);res(b?new File([b],file.name.replace(/\.\w+$/,'')+'.jpg',{type:'image/jpeg'}):file)},'image/jpeg',.82)};
+ im.onerror=function(){URL.revokeObjectURL(u);res(file)};im.src=u})}
+function baca(b){return new Promise(function(res,rej){var r=new FileReader();r.onload=function(){res(String(r.result).split(',')[1])};r.onerror=rej;r.readAsDataURL(b)})}
+function drawBerkas(){$('#daftarBerkas').innerHTML=berkas.map(function(b,i){return'<li>'+(b.type.indexOf('image/')===0?'<img alt="" src="'+URL.createObjectURL(b)+'">':'<b>Video</b>')+'<span>'+esc(b.name)+' ('+(b.size/1048576).toFixed(1)+' MB)</span><button type="button" data-x="'+i+'">Hapus</button></li>'}).join('')}
+$('#pilihBerkas').onclick=function(){$('#berkas').click()};
+$('#daftarBerkas').addEventListener('click',function(e){var x=e.target.getAttribute('data-x');if(x!==null){berkas.splice(+x,1);drawBerkas()}});
+$('#berkas').addEventListener('change',function(){
+ var fl=Array.prototype.slice.call(this.files);this.value='';
+ fl.forEach(function(file){
+  if(!/^(image|video)\//.test(file.type)){alert('"'+file.name+'" bukan foto atau video.');return}
+  if(file.size>MAXB&&file.type.indexOf('video/')===0){alert('"'+file.name+'" lebih dari 10 MB. Pilih video yang lebih pendek.');return}
+  if(berkas.length+pend>=MAXN){alert('Maksimal '+MAXN+' berkas.');return}
+  pend++;kecil(file).then(function(b){pend--;if(b.size>MAXB){alert('"'+file.name+'" masih lebih dari 10 MB.');return}berkas.push(b);drawBerkas()});
+ });
+});
+function kirimBerkas(no,files){var gagal=[],p=Promise.resolve();
+ files.forEach(function(b,i){p=p.then(function(){$('#kstat').textContent='Mengunggah berkas '+(i+1)+' dari '+files.length+'...';
+  return baca(b).then(function(x){return run('uploadFile',no,b.name,b.type,x)}).catch(function(){gagal.push(b.name)})})});
+ return p.then(function(){return gagal})}
+
+f.addEventListener('submit',function(e){
+ e.preventDefault();
+ if(!f.kronologi.value.trim()){alert('Isi kronologi singkat kejadian terlebih dahulu.');f.kronologi.focus();return}
+ if(!checks('jenis').length){alert('Pilih minimal satu jenis pelanggaran.');return}
+ var anon=f.anon.checked,btn=$('#kirim'),st=$('#kstat');
+ var r={sekolah:sek.value,anon:anon,pelapor:anon?'Anonim':f.pelapor_nama.value.trim(),pstatus:f.pstatus.value,
+  pkelas:f.pelapor_kelas.value,kontak:anon?'':f.pelapor_kontak.value,
+  korban:f.korban_nama.value,korbanStatus:f.korban_status.value,
+  terlapor:f.terlapor_nama.value,terlaporStatus:f.terlapor_status.value,
+  jml:f.jml.value,jmlDetail:f.jml_detail.value,hari:f.w_hari.value,tgl:f.w_tgl.value,jam:f.w_jam.value,
+  tempat:checks('tempat'),tempatLain:f.tempat_lain.value,jenis:checks('jenis'),
+  kronologi:f.kronologi.value,bukti:checks('bukti'),saksi:f.saksi.value};
+ var files=berkas.slice();
+ btn.disabled=true;st.textContent='Mengirim laporan...';
+ run('submitReport',r).then(function(res){return kirimBerkas(res.no,files).then(function(g){return{no:res.no,gagal:g}})})
+ .then(function(x){
+  f.reset();st.textContent='';
+  var s=$('#sukses');s.hidden=false;
+  s.innerHTML='Laporan diterima. Nomor laporan Anda:<br><b>'+esc(x.no)+'</b><br><span class="sub">Catat nomor ini untuk menanyakan perkembangan kepada petugas TPPK.</span>'+
+   (x.gagal.length?'<br><span class="sub" style="color:var(--warn)">Berkas ini gagal diunggah: '+esc(x.gagal.join(', '))+'. Serahkan langsung ke petugas.</span>':'');
+  s.scrollIntoView({behavior:'smooth'});
+ }).catch(function(err){st.textContent='';alert('Laporan belum terkirim: '+pesan(err)+'\nIsi formulir Anda masih tersimpan, silakan coba kirim lagi.')})
+ .then(function(){btn.disabled=false});
+});
+
+// Rekap petugas
+var LANGKAH=[
+ ['1. Identifikasi awal','Menentukan tingkat keparahan kasus (ringan / sedang / berat).'],
+ ['2. Klarifikasi & mediasi','Memanggil pihak pelapor, korban, saksi, dan terlapor secara terpisah.'],
+ ['3. Tindakan pendampingan','Pemberian bantuan psikologis / konseling kepada korban.'],
+ ['4. Pemberian sanksi','Edukasi, teguran tertulis, surat perjanjian, atau pelibatan orang tua.'],
+ ['5. Resolusi kasus','Status penutupan kasus: selesai damai / dirujuk ke dinas atau pihak berwajib.']];
+function muat(){$('#list').innerHTML='<p class="sub">Memuat laporan...</p>';
+ return run('getReports',pin).then(function(d){data=d.reverse();$('#cnt').textContent=data.length?'('+data.length+')':'';tampilList()})
+ .catch(function(e){$('#list').innerHTML='<p class="sub">'+esc(pesan(e))+'</p>'})}
+function tampilList(){var L=$('#list');
+ if(!data.length){L.innerHTML='<p class="sub">Belum ada laporan.</p>';return}
+ L.innerHTML=data.map(function(r){return'<button class="item" data-no="'+esc(r.no)+'"><b>'+esc(r.no)+'</b> <span class="tag">'+esc(r.status)+'</span>'+(r.tingkat?'<span class="tag">'+esc(r.tingkat)+'</span>':'')+
+  '<small>'+esc(r.jenis.join(', '))+' • Terlapor: '+esc(r.terlapor||'-')+' • '+new Date(r.dibuat).toLocaleDateString('id-ID')+'</small></button>'}).join('')}
+$('#list').addEventListener('click',function(e){var b=e.target.closest('.item');if(b)buka(b.dataset.no)});
+
+function buka(no){
+ var r=data.filter(function(x){return x.no===no})[0];if(!r)return;
+ var rows=[['No. laporan',r.no],['Tanggal laporan',tglPanjang(new Date(r.dibuat))],
+  ['Pelapor',r.pelapor+(r.pstatus?' ('+r.pstatus+(r.pkelas?' '+r.pkelas:'')+')':'')],['Kontak',r.kontak],
+  ['Korban',[r.korban,r.korbanStatus].filter(Boolean).join(' / ')],
+  ['Terlapor',[r.terlapor,r.terlaporStatus].filter(Boolean).join(' / ')],
+  ['Jumlah pelaku',[r.jml,r.jmlDetail].filter(Boolean).join(': ')],
+  ['Waktu kejadian',[r.hari,r.tgl,r.jam].filter(Boolean).join(', ')],
+  ['Tempat',r.tempat.concat(r.tempatLain?[r.tempatLain]:[]).join(', ')],
+  ['Jenis',r.jenis.join(', ')],['Kronologi',r.kronologi],['Bukti',r.bukti.join(', ')],['Saksi',r.saksi]];
+ var d=$('#detail');d.hidden=false;$('#daftar').hidden=true;
+ d.innerHTML='<section class="card"><h2>'+esc(r.sekolah)+'</h2><p class="sub">Lembar laporan</p><dl>'+
+  rows.filter(function(x){return x[1]}).map(function(x){return'<dt>'+x[0]+'</dt><dd>'+esc(x[1])+'</dd>'}).join('')+'</dl></section>'+
+  '<section class="card"><h2>Lembar rekap &amp; tindak lanjut</h2><p class="sub">Diisi oleh fasilitator guru / TPPK.</p>'+
+  '<div class="row"><div><label for="tk">Tingkat keparahan</label><select id="tk"><option value="">Belum ditentukan</option>'+
+  ['Ringan','Sedang','Berat'].map(function(o){return'<option'+(r.tingkat===o?' selected':'')+'>'+o+'</option>'}).join('')+'</select></div></div>'+
+  '<div class="scroll" style="margin-top:12px"><table><tr><th>Tahapan evaluasi</th><th>Catatan tindakan / keputusan</th><th>Tanggal eksekusi</th><th>Petugas PIC</th></tr>'+
+  LANGKAH.map(function(l,i){var s=r.langkah[i];
+   return'<tr><td><b>'+l[0]+'</b><br><span class="sub">'+l[1]+'</span></td><td><textarea data-i="'+i+'" data-k="c" aria-label="Catatan '+l[0]+'">'+esc(s.c)+'</textarea></td>'+
+   '<td><input type="date" data-i="'+i+'" data-k="t" value="'+esc(s.t)+'" aria-label="Tanggal '+l[0]+'"></td>'+
+   '<td><input type="text" data-i="'+i+'" data-k="p" value="'+esc(s.p)+'" aria-label="PIC '+l[0]+'"></td></tr>'}).join('')+'</table></div>'+
+  '<label>Status penutupan kasus</label><div class="opts">'+
+  [['Baru','Belum diproses'],['Diproses','Sedang diproses'],['Selesai damai','Selesai damai'],['Dirujuk','Dirujuk ke dinas / pihak berwajib']].map(function(o){
+   return'<label><input type="radio" name="st" value="'+o[0]+'"'+(r.status===o[0]?' checked':'')+'> '+o[1]+'</label>'}).join('')+'</div>'+
+  '<div class="bar"><button class="btn" id="simpan">Simpan tindak lanjut</button><button class="btn ghost" id="cetak">Cetak</button>'+
+  '<button class="btn ghost" id="kembali">Kembali ke daftar</button><button class="btn del" id="hapus">Hapus laporan</button></div><p id="msg" class="sub" role="status"></p></section>';
+ if(r.berkas&&r.berkas.length){var mc=document.createElement('section');mc.className='card';mc.innerHTML='<h2>Berkas bukti</h2><div class="media"></div>';d.insertBefore(mc,d.children[1]);
+  r.berkas.forEach(function(m){var fig=document.createElement('div');fig.innerHTML='<a href="'+esc(m.url)+'" target="_blank" rel="noopener">'+esc(m.n)+' (buka di Drive)</a>';mc.lastChild.appendChild(fig);
+   if(m.t.indexOf('image/')===0)run('getFile',pin,m.id).then(function(x){var im=document.createElement('img');im.alt=m.n;im.src='data:'+x.mime+';base64,'+x.b64;fig.insertBefore(im,fig.firstChild)}).catch(function(){})})}
+ $('#kembali').onclick=function(){tab(2)};
+ $('#cetak').onclick=function(){document.body.className='p-detail';window.print()};
+ $('#simpan').onclick=function(){
+  var langkah=[{},{},{},{},{}];
+  Array.prototype.forEach.call(d.querySelectorAll('[data-i]'),function(el){langkah[el.dataset.i][el.dataset.k]=el.value});
+  var st=d.querySelector('input[name=st]:checked'),upd={tingkat:$('#tk').value,status:st?st.value:r.status,langkah:langkah},m=$('#msg');
+  m.textContent='Menyimpan...';
+  run('saveFollowup',pin,r.no,upd).then(function(){r.tingkat=upd.tingkat;r.status=upd.status;r.langkah=langkah;m.textContent='Tindak lanjut tersimpan.'}).catch(function(e){m.textContent='Gagal menyimpan: '+pesan(e)});
+ };
+ $('#hapus').onclick=function(){
+  if(confirm('Hapus laporan '+r.no+' beserta berkasnya? Tindakan ini tidak bisa dibatalkan.'))
+   run('deleteReport',pin,r.no).then(function(){data=data.filter(function(q){return q.no!==r.no});$('#cnt').textContent=data.length?'('+data.length+')':'';tab(2)}).catch(function(e){$('#msg').textContent='Gagal menghapus: '+pesan(e)});
+ };
+}
+window.addEventListener('afterprint',function(){document.body.className=''});
+})();
+</script>
+</body>
+</html>
