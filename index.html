@@ -53,17 +53,30 @@ dl{margin:0;display:grid;grid-template-columns:160px 1fr;gap:4px 12px;font-size:
 dt{color:var(--mut)}dd{margin:0;white-space:pre-wrap}
 .files{list-style:none;padding:0;margin:8px 0 0}.files li{display:flex;align-items:center;gap:10px;padding:6px 8px;border:1px solid var(--line);border-radius:7px;margin-bottom:6px;font-size:14px}.files img{width:44px;height:44px;object-fit:cover;border-radius:5px}.files span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.files button{background:none;border:0;color:var(--warn);font:600 14px inherit;cursor:pointer}
 .media{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}.media img,.media video{width:100%;border-radius:8px;border:1px solid var(--line)}
-.only-print{display:none}
-.sig{display:grid;grid-template-columns:1fr 1fr;gap:30px;text-align:center;margin-top:10px}
-.sig div{padding-top:60px}
 [hidden]{display:none!important}
 @media (max-width:560px){dl{grid-template-columns:1fr}}
+#cetakDoc{display:none}
+@page{size:A4 portrait;margin:14mm}
 @media print{
- body{background:#fff;color:#000}header,nav,.bar,.noprint{display:none!important}
- section.card{border:1px solid #999;break-inside:avoid;background:#fff}
- .only-print{display:block}
- body.p-form #view-rekap,body.p-detail #view-form{display:none!important}
- input,select,textarea{border:0;border-bottom:1px solid #666;background:#fff;color:#000}
+ html,body{background:#fff!important;color:#000!important}
+ body>*{display:none!important}
+ body>#cetakDoc{display:block!important}
+ #cetakDoc{font:10.5pt/1.45 Arial,Helvetica,sans-serif;color:#000;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+ #cetakDoc .kop{text-align:center;margin-bottom:5mm}
+ #cetakDoc .kop .s{font-size:12pt;font-weight:bold}
+ #cetakDoc .kop .t{font-size:14pt;font-weight:bold;margin:1mm 0}
+ #cetakDoc .kop .u{font-size:10.5pt}
+ #cetakDoc table.doc{width:100%;border-collapse:collapse;table-layout:fixed;margin-bottom:6mm}
+ #cetakDoc .doc th,#cetakDoc .doc td{border:1px solid #000;padding:2mm 2.5mm;vertical-align:top;text-align:left;font-size:10.5pt;color:#000;overflow-wrap:anywhere;word-break:normal;height:9mm}
+ #cetakDoc .doc th{width:38mm;font-weight:bold;background:#eee}
+ #cetakDoc .doc tr{break-inside:avoid;page-break-inside:avoid}
+ #cetakDoc .doc tr.panjang{break-inside:auto;page-break-inside:auto}
+ #cetakDoc .doc tr.jdl td{background:#d0d0d0;font-weight:bold;height:auto}
+ #cetakDoc .cb{display:inline-block;margin-right:4mm;white-space:nowrap}
+ #cetakDoc .pre{white-space:pre-wrap;min-height:40mm}
+ #cetakDoc table.ttd{width:100%;border-collapse:collapse;table-layout:fixed;break-inside:avoid;page-break-inside:avoid}
+ #cetakDoc .ttd td{border:0;text-align:center;padding:0 4mm;height:32mm;vertical-align:top}
+ #cetakDoc .pb{break-before:page;page-break-before:always}
 }
 </style>
 </head>
@@ -83,7 +96,7 @@ dt{color:var(--mut)}dd{margin:0;white-space:pre-wrap}
 <div id="view-form">
 <div id="sukses" class="ok" hidden></div>
 <form id="f" autocomplete="off">
-<p class="note">Laporan dijaga kerahasiaannya. Anda boleh melapor secara anonim. Isi sejelas yang Anda tahu.</p>
+<p class="note">Laporan dijaga kerahasiaannya. Isi sejelas yang Anda tahu, lalu tekan Kirim laporan. Mencetak formulir tidak wajib.</p>
 
 <section class="card">
  <h2>Data laporan</h2>
@@ -95,9 +108,8 @@ dt{color:var(--mut)}dd{margin:0;white-space:pre-wrap}
 
 <section class="card">
  <h2>A. Identitas pelapor</h2>
- <p class="sub">Rahasia atau anonim, sesuai pilihan pelapor.</p>
- <div class="opts"><label><input type="checkbox" id="anon" name="anon"> Lapor secara anonim</label></div>
- <label for="pnama">Nama lengkap</label><input type="text" id="pnama" name="pelapor_nama">
+ <p class="sub">Identitas pelapor dijaga kerahasiaannya dan hanya dapat dibuka oleh petugas TPPK.</p>
+ <label for="pnama">Nama lengkap <span class="sub">(wajib)</span></label><input type="text" id="pnama" name="pelapor_nama" required>
  <label>Status</label>
  <div class="opts">
   <label><input type="radio" name="pstatus" value="Siswa"> Siswa</label>
@@ -178,14 +190,10 @@ dt{color:var(--mut)}dd{margin:0;white-space:pre-wrap}
  <p class="sub" style="margin-top:8px">Maksimal 5 berkas, 10 MB per berkas. Foto otomatis dikecilkan. Berkas dikirim ke penyimpanan sekolah (Google Drive) dan hanya bisa dibuka petugas TPPK.</p>
 </section>
 
-<section class="card only-print">
- <p class="sub">Tanda tangan (opsional, untuk pelaporan fisik / surat)</p>
- <div class="sig"><div>Pelapor / Agen Perubahan,<br><br>( ______________________ )</div><div>Petugas Penerima Laporan (TPPK),<br><br>( ______________________ )</div></div>
-</section>
 
 <div class="bar">
  <button class="btn" type="submit" id="kirim">Kirim laporan</button><span id="kstat" class="sub" role="status" style="align-self:center"></span>
- <button class="btn ghost" type="button" id="cetakForm">Cetak formulir</button>
+ <button class="btn ghost" type="button" id="cetakForm">Cetak / simpan PDF (opsional)</button>
  <button class="btn ghost" type="reset">Kosongkan</button>
 </div>
 </form>
@@ -207,6 +215,7 @@ dt{color:var(--mut)}dd{margin:0;white-space:pre-wrap}
 </div>
 </div>
 
+<div id="cetakDoc" aria-hidden="true"></div>
 <script>
 (function(){
 var $=function(s,r){return(r||document).querySelector(s)};
@@ -219,13 +228,14 @@ function run(fn){var a=Array.prototype.slice.call(arguments,1);
   .then(function(r){return r.json()})
   .then(function(j){if(!j.ok)throw new Error(j.error||'Server menolak permintaan.');return j.data})}
 function pesan(e){return(e&&e.message)||String(e)}
-var pin='',data=[],berkas=[],pend=0,MAXB=10*1048576,MAXN=5,KS='tppk_school';
+var aktif=null,pin='',data=[],berkas=[],pend=0,MAXB=10*1048576,MAXN=5,KS='tppk_school';
 var sek=$('#sekolah');try{var s0=localStorage.getItem(KS);if(s0)sek.value=s0}catch(e){}
 sek.addEventListener('input',function(){try{localStorage.setItem(KS,sek.value)}catch(e){}});
 function tglPanjang(d){return d.toLocaleDateString('id-ID',{weekday:'long',day:'numeric',month:'long',year:'numeric'})}
 $('#tgllap').value=tglPanjang(new Date());
 
 function tab(n){
+ aktif=null;
  $('#t1').setAttribute('aria-selected',n==1);$('#t2').setAttribute('aria-selected',n==2);
  $('#view-form').hidden=n!=1;$('#view-rekap').hidden=n!=2;
  if(n==2){$('#detail').hidden=true;
@@ -241,10 +251,9 @@ $('#keluar').onclick=function(){pin='';data=[];$('#cnt').textContent='';tab(2)};
 
 // Form
 var f=$('#f');
-$('#anon').addEventListener('change',function(){var a=this.checked;['#pnama','#pkontak'].forEach(function(i){$(i).disabled=a;if(a)$(i).value=''})});
 f.addEventListener('change',function(){$('#pkelas').hidden=f.elements.pstatus.value!=='Siswa';$('#jmlx').hidden=f.elements.jml.value!=='Lebih dari 1 orang'});
-f.addEventListener('reset',function(){berkas=[];drawBerkas();setTimeout(function(){$('#pkelas').hidden=true;$('#jmlx').hidden=true;$('#pnama').disabled=$('#pkontak').disabled=false},0)});
-$('#cetakForm').onclick=function(){document.body.className='p-form';window.print()};
+f.addEventListener('reset',function(){berkas=[];drawBerkas();setTimeout(function(){$('#pkelas').hidden=true;$('#jmlx').hidden=true},0)});
+$('#cetakForm').onclick=function(){siapCetak();window.print()};
 function checks(n){return Array.prototype.map.call(f.querySelectorAll('input[name='+n+']:checked'),function(e){return e.value})}
 
 // Unggah foto/video
@@ -272,19 +281,20 @@ function kirimBerkas(no,files){var gagal=[],p=Promise.resolve();
   return baca(b).then(function(x){return run('uploadFile',no,b.name,b.type,x)}).catch(function(){gagal.push(b.name)})})});
  return p.then(function(){return gagal})}
 
-f.addEventListener('submit',function(e){
- e.preventDefault();
- if(!f.kronologi.value.trim()){alert('Isi kronologi singkat kejadian terlebih dahulu.');f.kronologi.focus();return}
- if(!checks('jenis').length){alert('Pilih minimal satu jenis pelanggaran.');return}
- var anon=f.anon.checked,btn=$('#kirim'),st=$('#kstat');
- var r={sekolah:sek.value,anon:anon,pelapor:anon?'Anonim':f.pelapor_nama.value.trim(),pstatus:f.pstatus.value,
-  pkelas:f.pelapor_kelas.value,kontak:anon?'':f.pelapor_kontak.value,
+function ambilForm(){return{sekolah:sek.value,pelapor:f.pelapor_nama.value.trim(),pstatus:f.pstatus.value,
+  pkelas:f.pelapor_kelas.value,kontak:f.pelapor_kontak.value,
   korban:f.korban_nama.value,korbanStatus:f.korban_status.value,
   terlapor:f.terlapor_nama.value,terlaporStatus:f.terlapor_status.value,
   jml:f.jml.value,jmlDetail:f.jml_detail.value,hari:f.w_hari.value,tgl:f.w_tgl.value,jam:f.w_jam.value,
   tempat:checks('tempat'),tempatLain:f.tempat_lain.value,jenis:checks('jenis'),
-  kronologi:f.kronologi.value,bukti:checks('bukti'),saksi:f.saksi.value};
- var files=berkas.slice();
+  kronologi:f.kronologi.value,bukti:checks('bukti'),saksi:f.saksi.value}}
+
+f.addEventListener('submit',function(e){
+ e.preventDefault();
+ if(!f.pelapor_nama.value.trim()){alert('Isi nama lengkap pelapor.');f.pelapor_nama.focus();return}
+ if(!f.kronologi.value.trim()){alert('Isi kronologi singkat kejadian terlebih dahulu.');f.kronologi.focus();return}
+ if(!checks('jenis').length){alert('Pilih minimal satu jenis pelanggaran.');return}
+ var btn=$('#kirim'),st=$('#kstat'),r=ambilForm(),files=berkas.slice();
  btn.disabled=true;st.textContent='Mengirim laporan...';
  run('submitReport',r).then(function(res){return kirimBerkas(res.no,files).then(function(g){return{no:res.no,gagal:g}})})
  .then(function(x){
@@ -296,6 +306,50 @@ f.addEventListener('submit',function(e){
  }).catch(function(err){st.textContent='';alert('Laporan belum terkirim: '+pesan(err)+'\nIsi formulir Anda masih tersimpan, silakan coba kirim lagi.')})
  .then(function(){btn.disabled=false});
 });
+
+// ===== Dokumen cetak / PDF: dibangun terpisah agar teks utuh, rapi, dan tidak terpotong =====
+var OP_STATUSP=['Siswa','Guru/Tendik','Orang Tua','Masyarakat/Lainnya'],OP_JML=['1 orang','Lebih dari 1 orang'],
+ OP_TEMPAT=['Kelas','Kantin','Lapangan','Toilet','Media sosial (cyberbullying)','Luar sekolah','Lainnya'],
+ OP_JENIS=['Fisik','Verbal','Sosial/Relasional','Dunia maya (cyber)'],OP_BUKTI=['Foto / screenshot','Video / rekaman suara','Saksi mata'],
+ SLBL={'Baru':'Belum diproses','Diproses':'Sedang diproses','Selesai damai':'Selesai damai','Dirujuk':'Dirujuk ke dinas / pihak berwajib'};
+function tglId(iso){if(!iso)return'';var d=new Date(iso+'T00:00:00');return isNaN(d)?iso:d.toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'})}
+function cek(pilih,semua){return semua.map(function(o){return'<span class="cb">'+(pilih.indexOf(o)>=0?'[&nbsp;X&nbsp;]':'[&nbsp;&nbsp;&nbsp;]')+' '+esc(o)+'</span>'}).join(' ')}
+function br(l,v,cls){return'<tr'+(cls?' class="'+cls+'"':'')+'><th>'+l+'</th><td>'+v+'</td></tr>'}
+function jd(t){return'<tr class="jdl"><td colspan="2">'+t+'</td></tr>'}
+function kop(r,judul){return'<div class="kop"><div class="s">'+esc(r.sekolah)+'</div><div class="t">'+judul+'</div><div class="u">Program ROOTS / Tim Pencegahan &amp; Penanganan Kekerasan (TPPK)</div></div>'}
+function dokumen(r,m){
+ var h=kop(r,'FORMULIR PENGADUAN DAN PELAPORAN PELANGGARAN')+'<table class="doc">'+
+  br('No. Laporan',m.no?esc(m.no):'<i>(diisi oleh petugas)</i>')+br('Hari / Tanggal Laporan',esc(m.tgl))+
+  jd('A. IDENTITAS PELAPOR')+br('Nama Lengkap',esc(r.pelapor))+
+  br('Status',cek([r.pstatus],OP_STATUSP)+(r.pkelas?'<br>Kelas: '+esc(r.pkelas):''))+br('No. HP / Email Aktif',esc(r.kontak))+
+  jd('B. IDENTITAS KORBAN')+br('Nama Lengkap Korban',esc(r.korban))+br('Status / Kelas Korban',esc(r.korbanStatus))+
+  jd('C. IDENTITAS TERLAPOR (PELAKU)')+br('Nama Lengkap Terlapor',esc(r.terlapor))+br('Status / Kelas Terlapor',esc(r.terlaporStatus))+
+  br('Jumlah Pelaku',cek([r.jml],OP_JML)+(r.jmlDetail?'<br>Sebutkan: '+esc(r.jmlDetail):''))+
+  jd('D. RINCIAN KEJADIAN (5W+1H)')+
+  br('Waktu Kejadian','Hari: '+esc(r.hari)+' &nbsp; Tanggal: '+esc(tglId(r.tgl))+' &nbsp; Jam: '+esc(r.jam))+
+  br('Tempat Kejadian',cek(r.tempat,OP_TEMPAT)+(r.tempatLain?'<br>Lainnya: '+esc(r.tempatLain):''))+
+  br('Jenis Pelanggaran / Perundungan',cek(r.jenis,OP_JENIS))+
+  br('Kronologi Singkat Kejadian','<div class="pre">'+esc(r.kronologi)+'</div>','panjang')+
+  jd('E. BUKTI PENDUKUNG')+br('Bukti',cek(r.bukti,OP_BUKTI))+br('Saksi Mata',esc(r.saksi))+
+  br('Foto / Video Terlampir',m.berkas.length?m.berkas.map(esc).join('<br>'):'')+'</table>'+
+  '<table class="ttd"><tr><td>Pelapor / Agen Perubahan,<br><br><br><br>( ______________________ )</td><td>Petugas Penerima Laporan (TPPK),<br><br><br><br>( ______________________ )</td></tr></table>';
+ if(m.rekap){var q=m.rekap;
+  h+='<div class="pb"></div>'+kop(r,'LEMBAR REKAP &amp; TINDAK LANJUT')+'<table class="doc">'+br('No. Laporan',esc(m.no))+
+   br('Tingkat Keparahan',cek([q.tingkat],['Ringan','Sedang','Berat']))+
+   br('Status Penutupan Kasus',cek([SLBL[q.status]],Object.keys(SLBL).map(function(k){return SLBL[k]})))+'</table>'+
+   '<table class="doc"><colgroup><col style="width:30%"><col style="width:38%"><col style="width:16%"><col style="width:16%"></colgroup>'+
+   '<tr class="jdl"><td>Tahapan Evaluasi</td><td>Catatan Tindakan / Keputusan</td><td>Tanggal Eksekusi</td><td>Petugas PIC</td></tr>'+
+   LANGKAH.map(function(l,i){var x=q.langkah[i];return'<tr><td><b>'+l[0]+'</b><br>'+l[1]+'</td><td style="white-space:pre-wrap">'+esc(x.c)+'</td><td>'+esc(tglId(x.t))+'</td><td>'+esc(x.p)+'</td></tr>'}).join('')+'</table>'}
+ return h}
+function siapCetak(){
+ var el=$('#cetakDoc'),d=$('#detail');
+ if(aktif&&!d.hidden){
+  var lg=[{},{},{},{},{}];Array.prototype.forEach.call(d.querySelectorAll('[data-i]'),function(x){lg[x.dataset.i][x.dataset.k]=x.value});
+  var st=d.querySelector('input[name=st]:checked'),tk=d.querySelector('#tk');
+  el.innerHTML=dokumen(aktif,{no:aktif.no,tgl:tglPanjang(new Date(aktif.dibuat)),berkas:(aktif.berkas||[]).map(function(b){return b.n}),
+   rekap:{tingkat:tk?tk.value:aktif.tingkat,status:st?st.value:aktif.status,langkah:lg}});
+ }else el.innerHTML=dokumen(ambilForm(),{no:'',tgl:tglPanjang(new Date()),berkas:berkas.map(function(b){return b.name}),rekap:null});
+}
 
 // Rekap petugas
 var LANGKAH=[
@@ -315,6 +369,7 @@ $('#list').addEventListener('click',function(e){var b=e.target.closest('.item');
 
 function buka(no){
  var r=data.filter(function(x){return x.no===no})[0];if(!r)return;
+ aktif=r;
  var rows=[['No. laporan',r.no],['Tanggal laporan',tglPanjang(new Date(r.dibuat))],
   ['Pelapor',r.pelapor+(r.pstatus?' ('+r.pstatus+(r.pkelas?' '+r.pkelas:'')+')':'')],['Kontak',r.kontak],
   ['Korban',[r.korban,r.korbanStatus].filter(Boolean).join(' / ')],
@@ -343,7 +398,7 @@ function buka(no){
   r.berkas.forEach(function(m){var fig=document.createElement('div');fig.innerHTML='<a href="'+esc(m.url)+'" target="_blank" rel="noopener">'+esc(m.n)+' (buka di Drive)</a>';mc.lastChild.appendChild(fig);
    if(m.t.indexOf('image/')===0)run('getFile',pin,m.id).then(function(x){var im=document.createElement('img');im.alt=m.n;im.src='data:'+x.mime+';base64,'+x.b64;fig.insertBefore(im,fig.firstChild)}).catch(function(){})})}
  $('#kembali').onclick=function(){tab(2)};
- $('#cetak').onclick=function(){document.body.className='p-detail';window.print()};
+ $('#cetak').onclick=function(){siapCetak();window.print()};
  $('#simpan').onclick=function(){
   var langkah=[{},{},{},{},{}];
   Array.prototype.forEach.call(d.querySelectorAll('[data-i]'),function(el){langkah[el.dataset.i][el.dataset.k]=el.value});
@@ -356,7 +411,7 @@ function buka(no){
    run('deleteReport',pin,r.no).then(function(){data=data.filter(function(q){return q.no!==r.no});$('#cnt').textContent=data.length?'('+data.length+')':'';tab(2)}).catch(function(e){$('#msg').textContent='Gagal menghapus: '+pesan(e)});
  };
 }
-window.addEventListener('afterprint',function(){document.body.className=''});
+window.addEventListener('beforeprint',siapCetak);
 })();
 </script>
 </body>
