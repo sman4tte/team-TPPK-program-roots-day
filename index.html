@@ -193,7 +193,7 @@ dt{color:var(--mut)}dd{margin:0;white-space:pre-wrap}
 
 
 <div class="bar">
- <button class="btn" type="submit" id="kirim">Kirim laporan</button><span id="kstat" class="sub" role="status" style="align-self:center"></span>
+ <button class="btn ghost" type="submit" id="kirim">Kirim laporan</button><span id="kstat" class="sub" role="status" style="align-self:center"></span>
  <button class="btn ghost" type="button" id="cetakForm">Cetak / simpan PDF (opsional)</button>
  <button class="btn ghost" type="reset">Kosongkan</button>
 </div>
@@ -221,7 +221,7 @@ dt{color:var(--mut)}dd{margin:0;white-space:pre-wrap}
 (function(){
 var $=function(s,r){return(r||document).querySelector(s)};
 function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
-var API_URL='https://script.google.com/macros/s/AKfycbyRtp0VBbxLi5Rd7LhPPq1ml7-NWRTQuFw6Ac1d7AsB7dFEdF3zghEtfSzRSNymqsdo8g/exec'; // <-- tempel URL Web App Apps Script (berakhiran /exec) di antara tanda kutip
+var API_URL='PASTE_URL_WEB_APP_DI_SINI'; // <-- tempel URL Web App Apps Script (berakhiran /exec) di antara tanda kutip
 function run(fn){var a=Array.prototype.slice.call(arguments,1);
  if(!/^https:\/\/script\.google\.com\/.+\/exec/.test(API_URL))return Promise.reject({message:'URL server belum diisi. Buka berkas HTML ini di editor teks dan tempel URL Web App pada baris API_URL.'});
  // Content-Type text/plain (bawaan) menghindari preflight CORS pada Apps Script.
