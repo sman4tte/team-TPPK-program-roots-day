@@ -228,6 +228,8 @@ function run(fn){var a=Array.prototype.slice.call(arguments,1);
   .then(function(r){return r.json()})
   .then(function(j){if(!j.ok)throw new Error(j.error||'Server menolak permintaan.');return j.data})}
 function pesan(e){return(e&&e.message)||String(e)}
+function unduhPdf(nama,b64){var bin=atob(b64),u=new Uint8Array(bin.length);for(var i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);
+ var url=URL.createObjectURL(new Blob([u],{type:'application/pdf'})),a=document.createElement('a');a.href=url;a.download=nama;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url)},3000)}
 var aktif=null,pin='',data=[],berkas=[],pend=0,MAXB=10*1048576,MAXN=5,KS='tppk_school';
 var sek=$('#sekolah');try{var s0=localStorage.getItem(KS);if(s0)sek.value=s0}catch(e){}
 sek.addEventListener('input',function(){try{localStorage.setItem(KS,sek.value)}catch(e){}});
@@ -392,13 +394,20 @@ function buka(no){
   '<label>Status penutupan kasus</label><div class="opts">'+
   [['Baru','Belum diproses'],['Diproses','Sedang diproses'],['Selesai damai','Selesai damai'],['Dirujuk','Dirujuk ke dinas / pihak berwajib']].map(function(o){
    return'<label><input type="radio" name="st" value="'+o[0]+'"'+(r.status===o[0]?' checked':'')+'> '+o[1]+'</label>'}).join('')+'</div>'+
-  '<div class="bar"><button class="btn" id="simpan">Simpan tindak lanjut</button><button class="btn ghost" id="cetak">Cetak</button>'+
+  '<div class="bar"><button class="btn" id="simpan">Simpan tindak lanjut</button><button class="btn ghost" id="cetak">Cetak</button><button class="btn" id="unduh">Unduh PDF arsip</button>'+
   '<button class="btn ghost" id="kembali">Kembali ke daftar</button><button class="btn del" id="hapus">Hapus laporan</button></div><p id="msg" class="sub" role="status"></p></section>';
  if(r.berkas&&r.berkas.length){var mc=document.createElement('section');mc.className='card';mc.innerHTML='<h2>Berkas bukti</h2><div class="media"></div>';d.insertBefore(mc,d.children[1]);
   r.berkas.forEach(function(m){var fig=document.createElement('div');fig.innerHTML='<a href="'+esc(m.url)+'" target="_blank" rel="noopener">'+esc(m.n)+' (buka di Drive)</a>';mc.lastChild.appendChild(fig);
    if(m.t.indexOf('image/')===0)run('getFile',pin,m.id).then(function(x){var im=document.createElement('img');im.alt=m.n;im.src='data:'+x.mime+';base64,'+x.b64;fig.insertBefore(im,fig.firstChild)}).catch(function(){})})}
  $('#kembali').onclick=function(){tab(2)};
  $('#cetak').onclick=function(){siapCetak();window.print()};
+ $('#unduh').onclick=function(){var b=this,m=$('#msg'),lg=[{},{},{},{},{}];
+  Array.prototype.forEach.call(d.querySelectorAll('[data-i]'),function(el){lg[el.dataset.i][el.dataset.k]=el.value});
+  var st=d.querySelector('input[name=st]:checked'),upd={tingkat:$('#tk').value,status:st?st.value:r.status,langkah:lg};
+  b.disabled=true;m.textContent='Menyimpan dan menyiapkan PDF...';
+  run('saveFollowup',pin,r.no,upd).then(function(){r.tingkat=upd.tingkat;r.status=upd.status;r.langkah=lg;return run('getPdf',pin,r.no)})
+  .then(function(x){unduhPdf(x.name,x.b64);m.textContent='PDF diunduh dan tersimpan di arsip Google Drive ('+x.name+').'})
+  .catch(function(e){m.textContent='Gagal membuat PDF: '+pesan(e)}).then(function(){b.disabled=false})};
  $('#simpan').onclick=function(){
   var langkah=[{},{},{},{},{}];
   Array.prototype.forEach.call(d.querySelectorAll('[data-i]'),function(el){langkah[el.dataset.i][el.dataset.k]=el.value});
